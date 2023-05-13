@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="bus" />
+        <module name="routes" />
+        <module name="App-user" />
+        <module name="serviceRegistry" />
+        <module name="ConfigServer" />
+        <module name="busSchedule" />
+        <module name="ApiGateway" />
+        <module name="customer" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ApiGateway" target="17" />
+      <module name="App-user" target="17" />
+      <module name="bus" target="17" />
+      <module name="busSchedule" target="17" />
+      <module name="ConfigServer" target="17" />
+      <module name="customer" target="17" />
+      <module name="routes" target="17" />
+      <module name="serviceRegistry" target="17" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ApiGateway" options="-parameters" />
+      <module name="App-user" options="-parameters" />
+      <module name="ConfigServer" options="-parameters" />
+      <module name="bus" options="-parameters" />
+      <module name="busSchedule" options="-parameters" />
+      <module name="customer" options="-parameters" />
+      <module name="routes" options="-parameters" />
+      <module name="serviceRegistry" options="-parameters" />
+    </option>
+  </component>
+</project>

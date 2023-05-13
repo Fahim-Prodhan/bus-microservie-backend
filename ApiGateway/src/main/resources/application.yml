@@ -1,0 +1,74 @@
+server:
+  port: 3035
+
+spring:
+  application:
+    name: API-GATEWAY
+  config:
+    import: optional:configserver:http://localhost:3036
+
+
+  cloud:
+    gateway:
+      default-filters:
+        - DedupeResponseHeader=Access-Control-Allow-Credentials Access-Control-Allow-Origin
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods: "*"
+            allowedHeaders: "*"
+
+      routes:
+        - id: BUS
+          uri: lb://BUS
+          predicates:
+            - Path=/api/bus/**
+          filters:
+            - name: NewAuthenticationFilter
+        
+
+        - id: BUS-SCHEDULE
+          uri: lb://BUS-SCHEDULE
+          predicates:
+            - Path=/api/schedule/**,/api/seat/**
+          filters:
+            - name: NewAuthenticationFilter
+
+
+        - id: ROUTES
+          uri: lb://ROUTES
+          predicates:
+            - Path=/api/route/**
+          filters:
+            - name: NewAuthenticationFilter
+
+        - id: CUSTOMER
+          uri: lb://CUSTOMER
+          predicates:
+            - Path=/api/customer/**
+          filters:
+            - name: NewAuthenticationFilter
+
+        - id: APP-USER
+          uri: lb://APP-USER
+          predicates:
+            - Path=/api/user/**,/auth/**
+          filters:
+            - name: NewAuthenticationFilter
+
+
+
+
+
+
+
+#this is configured in github
+#eureka:
+#  instance:
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
