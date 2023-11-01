@@ -2,6 +2,7 @@ package com.microservice.busSchedule.controller;
 
 import com.microservice.busSchedule.model.BusSchedule;
 import com.microservice.busSchedule.model.Seat;
+import com.microservice.busSchedule.repository.SeatRepo;
 import com.microservice.busSchedule.service.BusScheduleService;
 import com.microservice.busSchedule.service.SeatService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,9 @@ public class SeatController {
 
     @Autowired
     private SeatService seatService;
+
+    @Autowired
+    private SeatRepo seatRepository;
 
     @PostMapping
     public ResponseEntity<Seat> addSeat (@RequestBody Seat seat) {
@@ -86,4 +90,26 @@ public class SeatController {
     public void deleteAllSeatsOfSchedules(@PathVariable String sId) {
         seatService.deleteSeatByScheduleId(sId);
     }
+
+
+    @PutMapping("/book-seats")
+    public ResponseEntity<?> bookSeats(@RequestBody List<Long> seatIds) {
+        if (seatIds.size() > 4) {
+            return ResponseEntity.badRequest().body("Max 4 seat IDs are Accepted.");
+        }
+
+        List<Seat> seatsToBook = seatRepository.findAllById(seatIds);
+        if (seatsToBook.size() > 4) {
+            return ResponseEntity.notFound().build();
+        }
+
+        for (Seat seat : seatsToBook) {
+            seat.setBooked(true);
+        }
+
+        seatRepository.saveAll(seatsToBook);
+
+        return ResponseEntity.ok("Seats booked successfully.");
+    }
+
 }

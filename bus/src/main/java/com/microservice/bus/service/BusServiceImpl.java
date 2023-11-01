@@ -37,6 +37,7 @@ public class BusServiceImpl implements BusService {
 
     @Override
     public void deleteBus(String busId){
+
         this.busRepo.deleteById(busId);
     }
 

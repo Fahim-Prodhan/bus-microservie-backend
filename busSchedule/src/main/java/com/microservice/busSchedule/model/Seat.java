@@ -20,6 +20,7 @@ public class Seat {
     private String scheduleId;
     private String seatNo;
     private Boolean booked = false;
+    private Boolean selected = false;
     
 
 }
