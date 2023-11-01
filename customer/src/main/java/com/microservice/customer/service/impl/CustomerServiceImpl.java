@@ -35,20 +35,20 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public Customer addCustomer(Customer customer) {
 
-        String randomId = UUID.randomUUID().toString();
-        customer.setCustomerId(randomId);
+//        String randomId = UUID.randomUUID().toString();
+//        customer.setCustomerId(randomId);
 
         return this.customerRepo.save(customer);
     }
 
     @Override
     public Customer updateCustomer(Customer customer) {
-        customer.setCustomerId(UUID.randomUUID().toString());
+//        customer.setCustomerId(UUID.randomUUID().toString());
         return this.customerRepo.save(customer);
     }
 
     @Override
-    public Customer getCustomerById(String  customerId) {
+    public Customer getCustomerById(Long  customerId) {
         Customer customer = this.customerRepo.findById(customerId).get();
 
         ResponseEntity<BusSchedule> schedule = restTemplate.getForEntity("http://BUS-SCHEDULE/api/schedule/" + customer.getScheduleId(), BusSchedule.class);
@@ -59,9 +59,9 @@ public class CustomerServiceImpl implements CustomerService {
         Routes routesBody = routes.getBody();
         customer.setRoutes(routesBody);
 
-        ResponseEntity<Seat> seat = restTemplate.getForEntity("http://BUS-SCHEDULE/api/seat/" + customer.getSeatId(), Seat.class);
-        Seat seatBody = seat.getBody();
-        customer.setSeat(seatBody);
+//        ResponseEntity<Seat> seat = restTemplate.getForEntity("http://BUS-SCHEDULE/api/seat/" + customer.getSeatId(), Seat.class);
+//        Seat seatBody = seat.getBody();
+//        customer.setSeat(seatBody);
 
 
         return customer;
@@ -69,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteCustomer(String  customerId) {
+    public void deleteCustomer(Long  customerId) {
         this.customerRepo.deleteById(customerId);
     }
 
@@ -86,9 +86,9 @@ public class CustomerServiceImpl implements CustomerService {
             Routes routesBody = routes.getBody();
             customer.setRoutes(routesBody);
 
-            ResponseEntity<Seat> seat = restTemplate.getForEntity("http://BUS-SCHEDULE/api/seat/" + customer.getSeatId(), Seat.class);
-            Seat seatBody = seat.getBody();
-            customer.setSeat(seatBody);
+//            ResponseEntity<Seat> seat = restTemplate.getForEntity("http://BUS-SCHEDULE/api/seat/" + customer.getSeatId(), Seat.class);
+//            Seat seatBody = seat.getBody();
+//            customer.setSeat(seatBody);
 
         }
         return customers;
@@ -124,12 +124,17 @@ public class CustomerServiceImpl implements CustomerService {
             Routes routesBody = routes.getBody();
             customer.setRoutes(routesBody);
 
-            ResponseEntity<Seat> seat = restTemplate.getForEntity("http://BUS-SCHEDULE/api/seat/" + customer.getSeatId(), Seat.class);
-            Seat seatBody = seat.getBody();
-            customer.setSeat(seatBody);
+//            ResponseEntity<Seat> seat = restTemplate.getForEntity("http://BUS-SCHEDULE/api/seat/" + customer.getSeatId(), Seat.class);
+//            Seat seatBody = seat.getBody();
+//            customer.setSeat(seatBody);
 
         }
         return byUserId;
+    }
+
+    @Override
+    public long CountTicketOfCurrentUser(Long userId) {
+        return this.customerRepo.countCustomersByUserId(userId);
     }
 
 

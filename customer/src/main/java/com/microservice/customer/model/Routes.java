@@ -21,4 +21,5 @@ public class Routes {
     private String time;
     private Date date;
     private String price;
+
 }

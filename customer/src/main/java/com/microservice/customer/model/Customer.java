@@ -1,9 +1,6 @@
 package com.microservice.customer.model;
 
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,19 +16,23 @@ import java.util.List;
 @Setter
 public class Customer {
     @Id
-    private String customerId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long customerId;
     private String routeId;
     private String scheduleId;
     private Long userId;
-    private Long seatId;
+//    private Long seatId;
     private String customerName;
     private String customerNumber;
-    @ElementCollection
-    private List<String> seatNo;
+    private String bookedSeats;
+    private Double totalPrice;
+    private String transactionId;
+//    @ElementCollection
+//    private List<String> seatNo;
     @Transient
     private BusSchedule busSchedule;
     @Transient
     private Routes routes;
-    @Transient
-    private Seat seat;
+//    @Transient
+//    private Seat seat;
 }

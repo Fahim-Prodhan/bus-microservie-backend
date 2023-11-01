@@ -9,8 +9,8 @@ import java.util.Set;
 public interface CustomerService {
     public Customer addCustomer(Customer customer);
     public Customer updateCustomer(Customer customer);
-    public Customer getCustomerById(String customerId);
-    public void deleteCustomer(String  customerId);
+    public Customer getCustomerById(Long customerId);
+    public void deleteCustomer(Long  customerId);
 
     public Set<Customer> getAllCustomers();
 
@@ -20,6 +20,12 @@ public interface CustomerService {
     List<Customer> getCustomerOfSeat(Long seatId);
 
     List<Customer> getAllCustomerOfCurrentUser(Long userId);
+
+    long CountTicketOfCurrentUser(Long userId);
+
+
+
+    
 
 //    Customer addCustomerWithSeat(Customer customer, List<Long> seatIds);
 

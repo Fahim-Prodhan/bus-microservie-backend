@@ -26,7 +26,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") String customerId) {
+    public ResponseEntity<Customer> getCustomerById(@PathVariable("customerId") Long customerId) {
         return ResponseEntity.ok(this.customerService.getCustomerById(customerId));
     }
 
@@ -37,7 +37,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{customerId}")
-    public void deleteCustomer(@PathVariable("customerId") String customerId) {
+    public void deleteCustomer(@PathVariable("customerId") Long customerId) {
         this.customerService.deleteCustomer(customerId);
     }
 
@@ -68,6 +68,17 @@ public class CustomerController {
     public ResponseEntity<List<Customer>> getAllCustomerOfCurrentUser(@PathVariable Long userId){
         List<Customer> allCustomerOfCurrentUser = this.customerService.getAllCustomerOfCurrentUser(userId);
         return ResponseEntity.ok(allCustomerOfCurrentUser);
+    }
+
+    @GetMapping("/count/{userId}")
+    public ResponseEntity<Long> CountTicketOfCurrentUser(@PathVariable Long userId) {
+        long TicketCount = this.customerService.CountTicketOfCurrentUser(userId);
+        return ResponseEntity.ok(TicketCount);
+    }
+
+    @GetMapping("pay/{amount}")
+    public void createTransaction (@PathVariable Double amount) {
+
     }
 
 
