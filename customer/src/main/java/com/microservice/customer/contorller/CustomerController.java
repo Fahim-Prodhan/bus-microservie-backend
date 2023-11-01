@@ -1,6 +1,7 @@
 package com.microservice.customer.contorller;
 
 import com.microservice.customer.model.Customer;
+import com.microservice.customer.model.TransactionDetails;
 import com.microservice.customer.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -58,11 +59,11 @@ public class CustomerController {
         List<Customer> customerOfSchedule = this.customerService.getCustomerOfSchedule(scheduleId);
         return ResponseEntity.ok(customerOfSchedule);
     }
-    @GetMapping("/seat/{seatId}")
-    public ResponseEntity<List<Customer>> getCustomersOfSeat(@PathVariable Long seatId){
-        List<Customer> customerOfSchedule = this.customerService.getCustomerOfSeat(seatId);
-        return ResponseEntity.ok(customerOfSchedule);
-    }
+//    @GetMapping("/seat/{seatId}")
+//    public ResponseEntity<List<Customer>> getCustomersOfSeat(@PathVariable Long seatId){
+//        List<Customer> customerOfSchedule = this.customerService.getCustomerOfSeat(seatId);
+//        return ResponseEntity.ok(customerOfSchedule);
+//    }
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Customer>> getAllCustomerOfCurrentUser(@PathVariable Long userId){
@@ -76,11 +77,9 @@ public class CustomerController {
         return ResponseEntity.ok(TicketCount);
     }
 
-    @GetMapping("pay/{amount}")
-    public void createTransaction (@PathVariable Double amount) {
-
+    @GetMapping("/pay/{amount}")
+    public TransactionDetails createTransaction (@PathVariable Double amount) {
+        return this.customerService.createTransaction(amount);
     }
-
-
 
 }

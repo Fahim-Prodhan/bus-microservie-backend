@@ -17,7 +17,7 @@ public interface CustomerRepo extends JpaRepository<Customer, Long > {
 
     List<Customer> findByScheduleId(String ScheduleId);
 
-    List<Customer> findBySeatId(Long seatId);
+//    List<Customer> findBySeatId(Long seatId);
     List<Customer> findByUserId(Long userId);
 
 //    @Modifying

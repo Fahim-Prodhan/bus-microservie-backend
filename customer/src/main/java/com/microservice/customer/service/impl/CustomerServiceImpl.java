@@ -1,12 +1,12 @@
 package com.microservice.customer.service.impl;
 
 
-import com.microservice.customer.model.BusSchedule;
-import com.microservice.customer.model.Customer;
-import com.microservice.customer.model.Routes;
-import com.microservice.customer.model.Seat;
+import com.microservice.customer.model.*;
 import com.microservice.customer.repository.CustomerRepo;
 import com.microservice.customer.service.CustomerService;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +22,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepo customerRepo;
-
-
     @Autowired
     private RestTemplate restTemplate;
 
+    private static final String  KEY = "rzp_test_GqGuGQdV4QAymi";
+    private static final String KEY_SECRET = "XqeBkdFP4dzgGIhSfHFLRqYP";
+    private static final String CURRENCY = "BDT";
     private Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
 //    private String seatServiceUrl = "http://localhost:3031";
@@ -106,11 +107,11 @@ public class CustomerServiceImpl implements CustomerService {
         return this.customerRepo.findByScheduleId(scheduleId);
     }
 
-    @Override
-    public List<Customer> getCustomerOfSeat(Long seatId) {
-        List<Customer> bySeatId = this.customerRepo.findBySeatId(seatId);
-        return bySeatId;
-    }
+//    @Override
+//    public List<Customer> getCustomerOfSeat(Long seatId) {
+//        List<Customer> bySeatId = this.customerRepo.findBySeatId(seatId);
+//        return bySeatId;
+//    }
 
     @Override
     public List<Customer> getAllCustomerOfCurrentUser(Long userId) {
@@ -135,6 +136,36 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public long CountTicketOfCurrentUser(Long userId) {
         return this.customerRepo.countCustomersByUserId(userId);
+    }
+
+    @Override
+    public TransactionDetails createTransaction(Double amount) {
+        try {
+
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("amount", amount*100);
+            jsonObject.put("currency",CURRENCY);
+
+            RazorpayClient razorpayClient = new RazorpayClient(KEY,KEY_SECRET);
+            Order order = razorpayClient.orders.create(jsonObject);
+            TransactionDetails transactionDetails = prepareTransactionDetails(order);
+            return transactionDetails;
+
+        }catch (Exception e) {
+            e.getMessage();
+        }
+        return null;
+    }
+
+    private TransactionDetails prepareTransactionDetails(Order order){
+
+        String orderId = order.get("id");
+        String currency = order.get("currency");
+        Integer amount = order.get("amount");
+
+        TransactionDetails transactionDetails = new TransactionDetails(orderId, currency, amount,KEY);
+        return transactionDetails;
+
     }
 
 
