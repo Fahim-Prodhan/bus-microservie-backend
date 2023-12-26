@@ -1,9 +1,6 @@
 package com.microservice.routes.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -22,5 +19,7 @@ public class Routes {
     private String destination;
     private String time;
     private Date date;
-    private String price;
+    private Double price;
+    @Transient
+    private Bus bus;
 }

@@ -20,4 +20,5 @@ public interface RoutesRepo extends JpaRepository<Routes, String> {
 //    List<Routes> findByDestinationAndDate(String destination, Date date);
 
     List<Routes> findByDepartureAndDestinationAndDate(String depart, String destination, Date date);
+    List<Routes> findAllByDate(Date date);
 }

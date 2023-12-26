@@ -1,7 +1,7 @@
 package com.microservice.Appuser.config;
 
 import com.microservice.Appuser.service.impl.UserDetailsServiceImpl;
-import jakarta.servlet.Filter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -41,7 +41,7 @@ public class MySecurityConfig {
                 .cors()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/token","auth/test","/auth/validate","/api/user/register","auth/current-user","/api/user/count","/api/user/seller-register").permitAll()
+                .requestMatchers("/auth/token","auth/test","/auth/validate","/api/user/register","auth/current-user","/api/user/count").permitAll()
                 .requestMatchers(HttpMethod.OPTIONS).permitAll()
                 .anyRequest()
                 .authenticated()

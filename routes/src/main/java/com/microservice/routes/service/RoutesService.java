@@ -26,5 +26,6 @@ public interface RoutesService {
 //    List<Routes> searchRoutesDestination(String destination,Date date);
 
     List<Routes> searchRoutes(String depart, String destination, Date date);
+    List<Routes> searchRoutesByDate(Date date);
 
 }

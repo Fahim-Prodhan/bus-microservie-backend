@@ -1,12 +1,15 @@
 package com.microservice.routes.service.impl;
 
 
+import com.microservice.routes.model.Bus;
 import com.microservice.routes.model.Routes;
 import com.microservice.routes.repository.RoutesRepo;
 import com.microservice.routes.service.RoutesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -15,6 +18,9 @@ public class RoutesServiceImpl implements RoutesService {
 
     @Autowired
     private RoutesRepo routesRepo;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     @Override
     public Routes addRoute(Routes routes) {
@@ -57,7 +63,25 @@ public class RoutesServiceImpl implements RoutesService {
     @Override
     public List<Routes> searchRoutes(String depart, String destination, Date date) {
         List<Routes> byDepartureAndDestinationAndDate = this.routesRepo.findByDepartureAndDestinationAndDate(depart, destination, date);
+        for (Routes routes: byDepartureAndDestinationAndDate){
+
+            ResponseEntity<Bus> BusList = restTemplate.getForEntity("http://Bus/api/bus/" + routes.getBusId(), Bus.class);
+            Bus busListBody = BusList.getBody();
+            routes.setBus(busListBody);
+
+        }
         return byDepartureAndDestinationAndDate;
+    }
+
+    @Override
+    public List<Routes> searchRoutesByDate(Date date) {
+        List<Routes> allByDate = this.routesRepo.findAllByDate(date);
+        for (Routes route: allByDate) {
+            ResponseEntity<Bus> busList = restTemplate.getForEntity("http://Bus/api/bus/" + route.getBusId(), Bus.class);
+            Bus body = busList.getBody();
+            route.setBus(body);
+        }
+        return allByDate;
     }
 
 //    @Override

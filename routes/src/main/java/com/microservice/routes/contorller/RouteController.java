@@ -85,4 +85,17 @@ public class RouteController {
             return ResponseEntity.ok(routesList);
         }
     }
+    @GetMapping("/searchByDate")
+    public ResponseEntity<List<Routes>> searchByDate (
+            @RequestParam(name = "date",required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date date){
+        List<Routes> routes = null;
+        if (date != null) {
+        routes = this.routesService.searchRoutesByDate(date);
+        }
+        if (routes == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(routes);
+        }
+    }
 }
